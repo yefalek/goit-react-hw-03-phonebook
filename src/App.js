@@ -41,6 +41,20 @@ class App extends Component {
     return contacts.filter((contact) => contact.name.includes(filter));
   };
 
+  componentDidMount() {
+    const contacts = localStorage.getItem("contacts");
+    const parsContacts = JSON.parse(contacts);
+      if (parsContacts) {
+      this.setState({contacts:parsContacts})
+      }
+  }
+
+  componentDidUpdate(prevValue, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
+    }
+  }
+
   render() {
     const { filter } = this.state;
     const visibleContacts = this.getVisibleContacts();
